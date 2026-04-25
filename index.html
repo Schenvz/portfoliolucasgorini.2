@@ -1,1299 +1,631 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucas Gorini — Web Developer</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
-    <style>
-        /* ===== LIGHT THEME ===== */
-        :root {
-            --bg: #f5f2ec;
-            --white: #faf8f4;
-            --text: #1a1714;
-            --muted: #8a8278;
-            --accent: #c84b2f;
-            --border: #e0dbd2;
-            --card: #ffffff;
-            --nav-bg: rgba(245, 242, 236, 0.92);
-            --shadow: rgba(0, 0, 0, 0.06);
-            --tech-pill-bg: #f0ece4;
-        }
-
-        /* ===== DARK THEME ===== */
-        [data-theme="dark"] {
-            --bg: #0f1117;
-            --white: #161b24;
-            --text: #e8e2d8;
-            --muted: #6b7280;
-            --accent: #e8613e;
-            --border: #1e2530;
-            --card: #151a23;
-            --nav-bg: rgba(15, 17, 23, 0.92);
-            --shadow: rgba(0, 0, 0, 0.3);
-            --tech-pill-bg: #1a2030;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            overflow-x: hidden;
-            transition: background 0.4s, color 0.4s;
-        }
-
-        /* ===== NAV ===== */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 200;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 5rem;
-            background: var(--nav-bg);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid var(--border);
-            transition: background 0.4s, border-color 0.4s;
-        }
-
-        .nav-logo {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.2rem;
-            color: var(--text);
-            letter-spacing: -0.5px;
-            transition: color 0.4s;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--text);
-        }
-
-        .nav-cta {
-            background: var(--text) !important;
-            color: var(--bg) !important;
-            padding: 0.45rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: 600 !important;
-            transition: background 0.2s !important;
-        }
-
-        .nav-cta:hover {
-            background: var(--accent) !important;
-        }
-
-        /* Lang toggle in nav */
-        .lang-btn {
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            padding: 0.4rem 0.9rem;
-            border-radius: 2rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .lang-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        /* ===== FLOATING THEME TOGGLE ===== */
-        .theme-toggle {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 300;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: var(--card);
-            border: 1.5px solid var(--border);
-            box-shadow: 0 4px 20px var(--shadow);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            transition: all 0.3s;
-            overflow: hidden;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.12) rotate(15deg);
-            border-color: var(--accent);
-            box-shadow: 0 6px 28px var(--shadow);
-        }
-
-        .theme-toggle .icon-sun,
-        .theme-toggle .icon-moon {
-            position: absolute;
-            transition: opacity 0.3s, transform 0.4s;
-        }
-
-        [data-theme="light"] .icon-sun {
-            opacity: 1;
-            transform: rotate(0deg) scale(1);
-        }
-
-        [data-theme="light"] .icon-moon {
-            opacity: 0;
-            transform: rotate(90deg) scale(0.5);
-        }
-
-        [data-theme="dark"] .icon-sun {
-            opacity: 0;
-            transform: rotate(-90deg) scale(0.5);
-        }
-
-        [data-theme="dark"] .icon-moon {
-            opacity: 1;
-            transform: rotate(0deg) scale(1);
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            padding: 8rem 5rem 5rem;
-            gap: 4rem;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 2rem;
-            padding: 0.4rem 1rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--muted);
-            margin-bottom: 0;
-            transition: background 0.4s, border-color 0.4s;
-        }
-
-        .badge-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #22c55e;
-            animation: pulse 2s infinite;
-        }
-
-        .hero-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(3rem, 6vw, 5.5rem);
-            line-height: 1.05;
-            letter-spacing: -1px;
-            margin-bottom: 1.5rem;
-            animation: fadeUp 0.5s 0.2s both;
-        }
-
-        .hero-title em {
-            color: var(--accent);
-            font-style: italic;
-        }
-
-        .hero-sub {
-            font-size: 1rem;
-            color: var(--muted);
-            line-height: 1.8;
-            max-width: 440px;
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-            animation: fadeUp 0.5s 0.3s both;
-        }
-
-        .hero-ctas {
-            display: flex;
-            gap: 1rem;
-            animation: fadeUp 0.5s 0.4s both;
-            flex-wrap: wrap;
-        }
-
-        .btn-dark {
-            padding: 0.9rem 2rem;
-            background: var(--text);
-            color: var(--bg);
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 3rem;
-            transition: all 0.25s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-dark:hover {
-            background: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            padding: 0.9rem 2rem;
-            background: transparent;
-            color: var(--text);
-            font-size: 0.85rem;
-            font-weight: 500;
-            text-decoration: none;
-            border-radius: 3rem;
-            border: 1.5px solid var(--border);
-            transition: all 0.25s;
-        }
-
-        .btn-outline:hover {
-            border-color: var(--text);
-        }
-
-        .hero-right {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            animation: fadeUp 0.5s 0.5s both;
-        }
-
-        .hero-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 2px 20px var(--shadow);
-            transition: background 0.4s, border-color 0.4s;
-        }
-
-        .hero-card-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--muted);
-            margin-bottom: 0.9rem;
-        }
-
-        /* ===== TECH PILLS WITH LOGOS ===== */
-        .tech-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-        }
-
-        .tech-pill {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            background: var(--tech-pill-bg);
-            border: 1px solid var(--border);
-            border-radius: 2rem;
-            padding: 0.4rem 0.9rem;
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--text);
-            transition: all 0.25s ease;
-            cursor: default;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tech-pill::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--accent);
-            opacity: 0;
-            transition: opacity 0.25s;
-            border-radius: inherit;
-        }
-
-        .tech-pill:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 16px var(--shadow);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .tech-pill svg,
-        .tech-pill img {
-            width: 16px;
-            height: 16px;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.25s;
-        }
-
-        .tech-pill:hover svg,
-        .tech-pill:hover img {
-            transform: rotate(-8deg) scale(1.15);
-        }
-
-        .tech-pill span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-stat-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .hero-stat {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 1.2rem 1.5rem;
-            box-shadow: 0 2px 20px var(--shadow);
-            transition: background 0.4s, border-color 0.4s;
-        }
-
-        .hero-stat-num {
-            font-family: 'DM Serif Display', serif;
-            font-size: 2.2rem;
-            color: var(--accent);
-            line-height: 1;
-        }
-
-        .hero-stat-label {
-            font-size: 0.75rem;
-            color: var(--muted);
-            margin-top: 0.3rem;
-            font-weight: 500;
-        }
-
-        /* ===== DIVIDER ===== */
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 0 5rem;
-        }
-
-        /* ===== SECTIONS ===== */
-        section {
-            padding: 6rem 5rem;
-        }
-
-        .section-eyebrow {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--accent);
-            margin-bottom: 0.8rem;
-        }
-
-        .section-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 2.8rem;
-            letter-spacing: -1px;
-            line-height: 1.1;
-            margin-bottom: 3rem;
-        }
-
-        .section-title em {
-            font-style: italic;
-            color: var(--muted);
-        }
-
-        /* ===== SKILLS ===== */
-        .skills-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            overflow: hidden;
-        }
-
-        .skill-item {
-            background: var(--card);
-            padding: 2rem;
-            transition: background 0.25s, transform 0.25s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 2px;
-            width: 0;
-            background: var(--accent);
-            transition: width 0.35s ease;
-        }
-
-        .skill-item:hover {
-            background: var(--white);
-        }
-
-        .skill-item:hover::after {
-            width: 100%;
-        }
-
-        /* Skill logos area */
-        .skill-logos {
-            display: flex;
-            gap: 0.6rem;
-            margin-bottom: 1.2rem;
-            flex-wrap: wrap;
-        }
-
-        .skill-logo {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: var(--tech-pill-bg);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.25s;
-        }
-
-        .skill-logo svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .skill-item:hover .skill-logo {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .skill-item:hover .skill-logo:nth-child(2) {
-            transition-delay: 0.05s;
-        }
-
-        .skill-item:hover .skill-logo:nth-child(3) {
-            transition-delay: 0.1s;
-        }
-
-        .skill-item:hover .skill-logo:nth-child(4) {
-            transition-delay: 0.15s;
-        }
-
-        .skill-name {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .skill-desc {
-            font-size: 0.82rem;
-            color: var(--muted);
-            line-height: 1.6;
-            font-weight: 300;
-        }
-
-        /* ===== PROJECTS ===== */
-        .projects-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            overflow: hidden;
-        }
-
-        .project-row {
-            background: var(--card);
-            display: grid;
-            grid-template-columns: 80px 1fr auto;
-            align-items: center;
-            gap: 2rem;
-            padding: 2rem 2.5rem;
-            text-decoration: none;
-            color: inherit;
-            transition: background 0.2s;
-            cursor: pointer;
-        }
-
-        .project-row:hover {
-            background: var(--white);
-        }
-
-        .project-num {
-            font-family: 'DM Serif Display', serif;
-            font-size: 2rem;
-            color: var(--border);
-            line-height: 1;
-            transition: color 0.2s;
-        }
-
-        .project-row:hover .project-num {
-            color: var(--accent);
-        }
-
-        .project-cat {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent);
-            margin-bottom: 0.3rem;
-        }
-
-        .project-name {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.4rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .project-desc {
-            font-size: 0.82rem;
-            color: var(--muted);
-            font-weight: 300;
-        }
-
-        .project-arrow {
-            font-size: 1.5rem;
-            color: var(--border);
-            transition: all 0.2s;
-        }
-
-        .project-row:hover .project-arrow {
-            color: var(--accent);
-            transform: translate(3px, -3px);
-        }
-
-        /* ===== ABOUT ===== */
-        .about-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 5rem;
-            align-items: start;
-        }
-
-        .about-sticky {
-            position: sticky;
-            top: 8rem;
-        }
-
-        .about-img-placeholder {
-            aspect-ratio: 3/4;
-            background: linear-gradient(160deg, var(--white), var(--tech-pill-bg));
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            border: 1px solid var(--border);
-        }
-
-        .about-content p {
-            color: var(--muted);
-            line-height: 1.9;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            font-weight: 300;
-        }
-
-        .about-content p strong {
-            color: var(--text);
-            font-weight: 600;
-        }
-
-        .about-list {
-            list-style: none;
-            margin-top: 2rem;
-        }
-
-        .about-list li {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.85rem;
-            color: var(--muted);
-        }
-
-        /* ===== CONTACT ===== */
-        .contact-inner {
-            background: var(--text);
-            border-radius: 1.5rem;
-            padding: 5rem;
-            text-align: center;
-            color: var(--bg);
-            transition: background 0.4s;
-        }
-
-        .contact-inner .section-eyebrow {
-            color: rgba(245, 242, 236, 0.5);
-        }
-
-        .contact-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            letter-spacing: -1px;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            color: var(--bg);
-        }
-
-        .contact-title em {
-            color: var(--accent);
-            font-style: italic;
-        }
-
-        .contact-sub {
-            color: rgba(245, 242, 236, 0.6);
-            margin-bottom: 3rem;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 300;
-        }
-
-        .contact-grid {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            background: rgba(245, 242, 236, 0.1);
-            border: 1px solid rgba(245, 242, 236, 0.2);
-            color: var(--bg);
-            text-decoration: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 3rem;
-            font-size: 0.82rem;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .contact-btn:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 2rem 5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.78rem;
-            color: var(--muted);
-        }
-
-        .footer-logo {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.1rem;
-            color: var(--text);
-        }
-
-        .footer-lang {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-lang-btn {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--muted);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.35rem 0.8rem;
-            border-radius: 2rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .footer-lang-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .footer-lang-btn.active {
-            background: var(--text);
-            color: var(--bg);
-            border-color: var(--text);
-        }
-
-        /* ===== ANIMATIONS ===== */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.4;
-            }
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem 1.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hero {
-                grid-template-columns: 1fr;
-                padding: 7rem 1.5rem 3rem;
-            }
-
-            .hero-right {
-                display: none;
-            }
-
-            section {
-                padding: 4rem 1.5rem;
-            }
-
-            .divider {
-                margin: 0 1.5rem;
-            }
-
-            .about-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .about-sticky {
-                position: static;
-            }
-
-            .contact-inner {
-                padding: 3rem 1.5rem;
-            }
-
-            footer {
-                padding: 1.5rem;
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .project-row {
-                grid-template-columns: 50px 1fr auto;
-                padding: 1.5rem;
-                gap: 1rem;
-            }
-
-            .theme-toggle {
-                bottom: 1.5rem;
-                right: 1.5rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+<!-- SEO META TAGS -->
+<title>Lucas Gorini — Web Developer | React, Next.js, Node.js</title>
+<meta name="description" content="Lucas Gorini, Independent Web Developer basado en Buenos Aires. Especialista en React, Next.js y Node.js. Open to work — disponible para proyectos remotos.">
+<meta name="keywords" content="Lucas Gorini, web developer, desarrollador web, React, Next.js, Node.js, TypeScript, freelance, Argentina, Buenos Aires">
+<meta name="author" content="Lucas Gorini">
+<meta name="robots" content="index, follow">
+ 
+<!-- OPEN GRAPH (LinkedIn, WhatsApp, etc.) -->
+<meta property="og:title" content="Lucas Gorini — Web Developer">
+<meta property="og:description" content="Independent Web Developer especializado en React, Next.js y Node.js. Basado en Buenos Aires, disponible para trabajo remoto.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lucasgorini-portafolio.vercel.app">
+<meta property="og:image" content="https://lucasgorini-portafolio.vercel.app/og-image.png">
+ 
+<!-- TWITTER CARD -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lucas Gorini — Web Developer">
+<meta name="twitter:description" content="Independent Web Developer | React · Next.js · Node.js | Buenos Aires 🇦🇷">
+ 
+<!-- FAVICON -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23c84b2f'/><text y='.9em' font-size='72' x='12' font-family='serif' font-weight='bold' fill='white'>L</text></svg>">
+ 
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+ 
+<style>
+  /* ===== THEMES ===== */
+  :root {
+    --bg: #f5f2ec; --white: #faf8f4; --text: #1a1714;
+    --muted: #8a8278; --accent: #c84b2f; --border: #e0dbd2;
+    --card: #ffffff; --nav-bg: rgba(245,242,236,0.92);
+    --shadow: rgba(0,0,0,0.06); --pill-bg: #ede9e0;
+  }
+  [data-theme="dark"] {
+    --bg: #0f1117; --white: #161b24; --text: #e8e2d8;
+    --muted: #6b7280; --accent: #e8613e; --border: #1e2530;
+    --card: #151a23; --nav-bg: rgba(15,17,23,0.92);
+    --shadow: rgba(0,0,0,0.35); --pill-bg: #1a2030;
+  }
+ 
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; overflow-x:hidden; transition:background .4s,color .4s; }
+ 
+  /* ===== SCROLL PROGRESS ===== */
+  #scroll-bar {
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:linear-gradient(90deg, var(--accent), #f0a070);
+    z-index:9999; transition:width .1s linear;
+    box-shadow: 0 0 8px var(--accent);
+  }
+ 
+  /* ===== NAV ===== */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.2rem 5rem;
+    background:var(--nav-bg); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+    transition:background .4s,border-color .4s;
+  }
+  .nav-logo { font-family:'DM Serif Display',serif; font-size:1.2rem; color:var(--text); letter-spacing:-.5px; }
+  .nav-right { display:flex; align-items:center; gap:2rem; }
+  .nav-links { display:flex; gap:2rem; list-style:none; align-items:center; }
+  .nav-links a { color:var(--muted); text-decoration:none; font-size:.85rem; font-weight:500; transition:color .2s; }
+  .nav-links a:hover { color:var(--text); }
+  .nav-cta { background:var(--text)!important; color:var(--bg)!important; padding:.45rem 1.2rem; border-radius:2rem; font-weight:600!important; transition:background .2s!important; }
+  .nav-cta:hover { background:var(--accent)!important; }
+  .lang-btn { background:var(--card); border:1px solid var(--border); color:var(--muted); font-family:'DM Sans',sans-serif; font-size:.75rem; font-weight:600; letter-spacing:1px; padding:.4rem .9rem; border-radius:2rem; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:.4rem; }
+  .lang-btn:hover { border-color:var(--accent); color:var(--accent); }
+ 
+  /* ===== FLOATING THEME TOGGLE ===== */
+  .theme-toggle {
+    position:fixed; bottom:2rem; right:2rem; z-index:300;
+    width:52px; height:52px; border-radius:50%;
+    background:var(--card); border:1.5px solid var(--border);
+    box-shadow:0 4px 24px var(--shadow);
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem; transition:all .3s; overflow:hidden;
+  }
+  .theme-toggle:hover { transform:scale(1.12) rotate(15deg); border-color:var(--accent); box-shadow:0 8px 32px var(--shadow); }
+  .theme-toggle .icon-sun, .theme-toggle .icon-moon { position:absolute; transition:opacity .3s,transform .4s; }
+  [data-theme="light"] .icon-sun  { opacity:1; transform:rotate(0deg) scale(1); }
+  [data-theme="light"] .icon-moon { opacity:0; transform:rotate(90deg) scale(.4); }
+  [data-theme="dark"]  .icon-sun  { opacity:0; transform:rotate(-90deg) scale(.4); }
+  [data-theme="dark"]  .icon-moon { opacity:1; transform:rotate(0deg) scale(1); }
+ 
+  /* ===== SCROLL ANIMATIONS ===== */
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity .65s ease, transform .65s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-left  { opacity:0; transform:translateX(-28px); transition:opacity .65s ease, transform .65s ease; }
+  .reveal-left.visible { opacity:1; transform:translateX(0); }
+  .reveal-right { opacity:0; transform:translateX(28px); transition:opacity .65s ease, transform .65s ease; }
+  .reveal-right.visible { opacity:1; transform:translateX(0); }
+ 
+  /* ===== HERO ===== */
+  .hero { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; align-items:center; padding:8rem 5rem 5rem; gap:4rem; }
+  .hero-badges { display:flex; gap:.7rem; flex-wrap:wrap; margin-bottom:2rem; animation:fadeUp .5s .1s both; }
+  .hero-badge { display:inline-flex; align-items:center; gap:.5rem; background:var(--white); border:1px solid var(--border); border-radius:2rem; padding:.4rem 1rem; font-size:.75rem; font-weight:500; color:var(--muted); }
+  .badge-dot { width:6px; height:6px; border-radius:50%; background:#22c55e; animation:pulse 2s infinite; }
+  .hero-title { font-family:'DM Serif Display',serif; font-size:clamp(3rem,6vw,5.5rem); line-height:1.05; letter-spacing:-1px; margin-bottom:1.5rem; animation:fadeUp .5s .2s both; }
+  .hero-title em { color:var(--accent); font-style:italic; }
+  .hero-sub { font-size:1rem; color:var(--muted); line-height:1.8; max-width:440px; margin-bottom:2.5rem; font-weight:300; animation:fadeUp .5s .3s both; }
+  .hero-ctas { display:flex; gap:1rem; animation:fadeUp .5s .4s both; flex-wrap:wrap; }
+  .btn-dark { padding:.9rem 2rem; background:var(--text); color:var(--bg); font-size:.85rem; font-weight:600; text-decoration:none; border-radius:3rem; transition:all .25s; border:none; cursor:pointer; }
+  .btn-dark:hover { background:var(--accent); transform:translateY(-2px); }
+  .btn-outline { padding:.9rem 2rem; background:transparent; color:var(--text); font-size:.85rem; font-weight:500; text-decoration:none; border-radius:3rem; border:1.5px solid var(--border); transition:all .25s; }
+  .btn-outline:hover { border-color:var(--text); }
+  .btn-cv { padding:.9rem 2rem; background:transparent; color:var(--accent); font-size:.85rem; font-weight:600; text-decoration:none; border-radius:3rem; border:1.5px solid var(--accent); transition:all .25s; display:flex; align-items:center; gap:.5rem; }
+  .btn-cv:hover { background:var(--accent); color:var(--bg); transform:translateY(-2px); }
+ 
+  .hero-right { display:flex; flex-direction:column; gap:1rem; animation:fadeUp .5s .5s both; }
+  .hero-card { background:var(--card); border:1px solid var(--border); border-radius:1rem; padding:1.5rem; box-shadow:0 2px 20px var(--shadow); transition:background .4s,border-color .4s; }
+  .hero-card-label { font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--muted); margin-bottom:1rem; }
+ 
+  /* ===== TECH PILLS ===== */
+  .tech-list { display:flex; flex-wrap:wrap; gap:.55rem; }
+  .tech-pill { display:flex; align-items:center; gap:.45rem; background:var(--pill-bg); border:1px solid var(--border); border-radius:2rem; padding:.4rem .9rem; font-size:.78rem; font-weight:500; color:var(--text); cursor:default; transition:transform .25s,box-shadow .25s,border-color .25s,color .25s; }
+  .tech-pill:hover { transform:translateY(-3px) scale(1.06); box-shadow:0 6px 18px var(--shadow); border-color:var(--accent); color:var(--accent); }
+  .tech-pill svg { width:15px; height:15px; flex-shrink:0; transition:transform .25s; }
+  .tech-pill:hover svg { transform:rotate(-10deg) scale(1.2); }
+ 
+  .hero-stat-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .hero-stat { background:var(--card); border:1px solid var(--border); border-radius:1rem; padding:1.2rem 1.5rem; box-shadow:0 2px 20px var(--shadow); }
+  .hero-stat-num { font-family:'DM Serif Display',serif; font-size:2.2rem; color:var(--accent); line-height:1; }
+  .hero-stat-label { font-size:.75rem; color:var(--muted); margin-top:.3rem; font-weight:500; }
+ 
+  /* ===== DIVIDER ===== */
+  .divider { height:1px; background:var(--border); margin:0 5rem; }
+ 
+  /* ===== SECTIONS ===== */
+  section { padding:6rem 5rem; }
+  .section-eyebrow { font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:3px; color:var(--accent); margin-bottom:.8rem; }
+  .section-title { font-family:'DM Serif Display',serif; font-size:2.8rem; letter-spacing:-1px; line-height:1.1; margin-bottom:3rem; }
+  .section-title em { font-style:italic; color:var(--muted); }
+ 
+  /* ===== SKILLS ===== */
+  .skills-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:1rem; overflow:hidden; }
+  .skill-item { background:var(--card); padding:2rem; position:relative; overflow:hidden; transition:background .25s; }
+  .skill-item::after { content:''; position:absolute; bottom:0; left:0; height:2px; width:0; background:var(--accent); transition:width .35s ease; }
+  .skill-item:hover { background:var(--white); }
+  .skill-item:hover::after { width:100%; }
+  .skill-logos { display:flex; gap:.6rem; margin-bottom:1.3rem; }
+  .skill-logo { width:38px; height:38px; border-radius:9px; background:var(--pill-bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; transition:transform .25s,border-color .25s,box-shadow .25s; }
+  .skill-logo svg { width:20px; height:20px; }
+  .skill-item:hover .skill-logo { transform:translateY(-5px); border-color:var(--accent); box-shadow:0 5px 14px var(--shadow); }
+  .skill-item:hover .skill-logo:nth-child(2) { transition-delay:.05s; }
+  .skill-item:hover .skill-logo:nth-child(3) { transition-delay:.10s; }
+  .skill-item:hover .skill-logo:nth-child(4) { transition-delay:.15s; }
+  .skill-name { font-family:'DM Serif Display',serif; font-size:1.3rem; margin-bottom:.5rem; }
+  .skill-desc { font-size:.82rem; color:var(--muted); line-height:1.6; font-weight:300; }
+ 
+  /* ===== EXPERIENCE ===== */
+  .exp-list { display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:1rem; overflow:hidden; }
+  .exp-item { background:var(--card); padding:2rem 2.5rem; transition:background .2s; }
+  .exp-item:hover { background:var(--white); }
+  .exp-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:.8rem; gap:1rem; }
+  .exp-role { font-family:'DM Serif Display',serif; font-size:1.2rem; }
+  .exp-date { font-size:.75rem; color:var(--muted); font-weight:500; white-space:nowrap; background:var(--pill-bg); border:1px solid var(--border); padding:.3rem .8rem; border-radius:2rem; }
+  .exp-company { font-size:.82rem; color:var(--accent); font-weight:600; margin-bottom:.8rem; }
+  .exp-desc { font-size:.82rem; color:var(--muted); line-height:1.7; font-weight:300; }
+ 
+  /* ===== PROJECTS ===== */
+  .projects-list { display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:1rem; overflow:hidden; }
+  .project-row { background:var(--card); display:grid; grid-template-columns:80px 1fr auto; align-items:center; gap:2rem; padding:2rem 2.5rem; text-decoration:none; color:inherit; transition:background .2s; }
+  .project-row:hover { background:var(--white); }
+  .project-num { font-family:'DM Serif Display',serif; font-size:2rem; color:var(--border); line-height:1; transition:color .2s; }
+  .project-row:hover .project-num { color:var(--accent); }
+  .project-cat { font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--accent); margin-bottom:.3rem; }
+  .project-name { font-family:'DM Serif Display',serif; font-size:1.4rem; margin-bottom:.3rem; }
+  .project-desc { font-size:.82rem; color:var(--muted); font-weight:300; }
+  .project-arrow { font-size:1.5rem; color:var(--border); transition:all .2s; }
+  .project-row:hover .project-arrow { color:var(--accent); transform:translate(3px,-3px); }
+ 
+  /* ===== BLOG ===== */
+  .blog-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; }
+  .blog-card { background:var(--card); border:1px solid var(--border); border-radius:1rem; padding:2rem; transition:transform .25s,border-color .25s,box-shadow .25s; }
+  .blog-card:hover { transform:translateY(-5px); border-color:var(--accent); box-shadow:0 8px 30px var(--shadow); }
+  .blog-tag { font-size:.65rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--accent); margin-bottom:.8rem; }
+  .blog-title { font-family:'DM Serif Display',serif; font-size:1.4rem; margin-bottom:.8rem; line-height:1.2; }
+  .blog-excerpt { font-size:.83rem; color:var(--muted); line-height:1.7; font-weight:300; margin-bottom:1.2rem; }
+  .blog-meta { font-size:.72rem; color:var(--muted); display:flex; align-items:center; gap:.6rem; }
+  .blog-dot { width:3px; height:3px; border-radius:50%; background:var(--muted); }
+ 
+  /* ===== ABOUT ===== */
+  .about-layout { display:grid; grid-template-columns:1fr 1.2fr; gap:5rem; align-items:start; }
+  .about-sticky { position:sticky; top:8rem; }
+  .about-img-placeholder { aspect-ratio:3/4; background:linear-gradient(160deg,var(--white),var(--pill-bg)); border-radius:1rem; display:flex; align-items:center; justify-content:center; font-size:5rem; border:1px solid var(--border); }
+  .about-content p { color:var(--muted); line-height:1.9; margin-bottom:1.5rem; font-size:.95rem; font-weight:300; }
+  .about-content p strong { color:var(--text); font-weight:600; }
+  .about-list { list-style:none; margin-top:2rem; }
+  .about-list li { display:flex; align-items:center; gap:.8rem; padding:.8rem 0; border-bottom:1px solid var(--border); font-size:.85rem; color:var(--muted); }
+ 
+  /* ===== CONTACT ===== */
+  .contact-inner { background:var(--text); border-radius:1.5rem; padding:5rem; text-align:center; transition:background .4s; }
+  .contact-inner .section-eyebrow { color:rgba(245,242,236,.5); }
+  .contact-title { font-family:'DM Serif Display',serif; font-size:clamp(2.5rem,5vw,4rem); letter-spacing:-1px; line-height:1.1; margin-bottom:1.5rem; color:var(--bg); }
+  .contact-title em { color:var(--accent); font-style:italic; }
+  .contact-sub { color:rgba(200,190,180,.8); margin-bottom:3rem; font-size:.95rem; line-height:1.7; max-width:500px; margin-left:auto; margin-right:auto; font-weight:300; }
+  .contact-grid { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; }
+  .contact-btn { display:flex; align-items:center; gap:.6rem; background:rgba(245,242,236,.08); border:1px solid rgba(245,242,236,.18); color:var(--bg); text-decoration:none; padding:.8rem 1.5rem; border-radius:3rem; font-size:.82rem; font-weight:500; transition:all .2s; }
+  .contact-btn:hover { background:var(--accent); border-color:var(--accent); }
+ 
+  /* ===== FOOTER ===== */
+  footer { border-top:1px solid var(--border); padding:2rem 5rem; display:flex; justify-content:space-between; align-items:center; font-size:.78rem; color:var(--muted); }
+  .footer-logo { font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--text); }
+  .footer-lang { display:flex; align-items:center; gap:.5rem; }
+  .footer-lang-btn { background:none; border:1px solid var(--border); color:var(--muted); font-family:'DM Sans',sans-serif; font-size:.75rem; font-weight:600; padding:.35rem .8rem; border-radius:2rem; cursor:pointer; transition:all .2s; }
+  .footer-lang-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .footer-lang-btn.active { background:var(--text); color:var(--bg); border-color:var(--text); }
+ 
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+ 
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:768px){
+    nav{padding:1rem 1.5rem;} .nav-links{display:none;}
+    .hero{grid-template-columns:1fr;padding:7rem 1.5rem 3rem;} .hero-right{display:none;}
+    section{padding:4rem 1.5rem;} .divider{margin:0 1.5rem;}
+    .about-layout{grid-template-columns:1fr;} .about-sticky{position:static;}
+    .contact-inner{padding:3rem 1.5rem;}
+    footer{padding:1.5rem;flex-direction:column;gap:1rem;text-align:center;}
+    .project-row{grid-template-columns:50px 1fr auto;padding:1.5rem;gap:1rem;}
+    .theme-toggle{bottom:1.5rem;right:1.5rem;}
+    .exp-header{flex-direction:column;gap:.5rem;}
+  }
+</style>
 </head>
-
 <body>
-
-    <!-- FLOATING THEME TOGGLE -->
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-        <span class="icon-sun">☀️</span>
-        <span class="icon-moon">🌙</span>
+ 
+<!-- SCROLL PROGRESS BAR -->
+<div id="scroll-bar"></div>
+ 
+<!-- FLOATING THEME TOGGLE -->
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <span class="icon-sun">☀️</span>
+  <span class="icon-moon">🌙</span>
+</button>
+ 
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Lucas Gorini — Web Developer</div>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#skills"     data-i18n="nav_stack">Stack</a></li>
+      <li><a href="#experience" data-i18n="nav_exp">Experiencia</a></li>
+      <li><a href="#projects"   data-i18n="nav_projects">Proyectos</a></li>
+      <li><a href="#blog"       data-i18n="nav_blog">Blog</a></li>
+      <li><a href="#about"      data-i18n="nav_about">Sobre mí</a></li>
+      <li><a href="#contact" class="nav-cta" data-i18n="nav_contact">Contacto</a></li>
+    </ul>
+    <button class="lang-btn" onclick="toggleLang()">
+      <span id="lang-flag">🇺🇸</span>
+      <span id="lang-label">EN</span>
     </button>
-
-    <!-- NAV -->
-    <nav>
-        <div class="nav-logo">Lucas Gorini — Web Developer</div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li><a href="#skills" data-i18n="nav_stack">Stack</a></li>
-                <li><a href="#projects" data-i18n="nav_projects">Proyectos</a></li>
-                <li><a href="#about" data-i18n="nav_about">Sobre mí</a></li>
-                <li><a href="#contact" class="nav-cta" data-i18n="nav_contact">Contacto</a></li>
-            </ul>
-            <button class="lang-btn" onclick="toggleLang()">
-                <span id="lang-flag">🇺🇸</span>
-                <span id="lang-label">EN</span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- HERO -->
-    <section class="hero" id="hero">
-        <div class="hero-left">
-            <div
-                style="display:flex; gap:0.7rem; flex-wrap:wrap; margin-bottom:2rem; animation: fadeUp 0.5s 0.1s both;">
-                <div class="hero-badge">
-                    <span class="badge-dot"></span>
-                    <span data-i18n="badge_open">Open to work</span>
-                </div>
-                <div class="hero-badge">
-                    ✦ <span data-i18n="badge_hire">Available for hire</span>
-                </div>
-            </div>
-
-            <h1 class="hero-title">
-                <span data-i18n="hero_line1">Desarrollo web</span><br>
-                <em data-i18n="hero_line2">que funciona</em><br>
-                <span data-i18n="hero_line3">de verdad.</span>
-            </h1>
-
-            <p class="hero-sub" data-i18n="hero_sub">
-                Soy Lucas Gorini, Independent Web Developer. Construyo aplicaciones modernas con React, Next.js y
-                Node.js, con foco en calidad y entregas reales.
-            </p>
-
-            <div class="hero-ctas">
-                <a href="#projects" class="btn-dark" data-i18n="btn_projects">Ver proyectos</a>
-                <a href="#contact" class="btn-outline" data-i18n="btn_contact">Trabajemos juntos →</a>
-            </div>
-        </div>
-
-        <div class="hero-right">
-            <div class="hero-card">
-                <div class="hero-card-label" data-i18n="stack_label">Stack principal</div>
-                <div class="tech-list" id="tech-list">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-
-            <div class="hero-stat-row">
-                <div class="hero-stat">
-                    <div class="hero-stat-num">6</div>
-                    <div class="hero-stat-label" data-i18n="stat_months">Meses programando</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-num">100%</div>
-                    <div class="hero-stat-label" data-i18n="stat_commit">Compromiso</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- SKILLS -->
-    <section id="skills">
-        <div class="section-eyebrow" data-i18n="skills_eyebrow">Stack técnico</div>
-        <h2 class="section-title"><span data-i18n="skills_title1">Lo que</span> <em
-                data-i18n="skills_title2">construyo</em></h2>
-
-        <div class="skills-list">
-
-            <!-- Frontend -->
-            <div class="skill-item">
-                <div class="skill-logos">
-                    <div class="skill-logo"><!-- React -->
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="2.5" fill="#61DAFB" />
-                            <g stroke="#61DAFB" stroke-width="1.2" fill="none">
-                                <ellipse cx="12" cy="12" rx="10" ry="4" />
-                                <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)" />
-                                <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)" />
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- Next.js -->
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.052.54-.052.479 0 .558.019.683.155a466.83 466.83 0 0 1 2.895 4.361c1.558 2.362 3.687 5.587 4.734 7.171l1.9 2.878.096-.063a12.317 12.317 0 0 0 2.465-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747C22.25 5.917 19.21 2.28 15.023.56A12.077 12.077 0 0 0 12.552.008C12.208-.006 11.69-.002 11.572 0z" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- TypeScript -->
-                        <svg viewBox="0 0 24 24">
-                            <rect width="24" height="24" rx="3" fill="#3178C6" />
-                            <path
-                                d="M13.1 12.1h2.9v1.3h-1.6v6.1h-1.3v-6.1H11.5v-1.3h1.6zm4.5 1.3v-1.3h-4.1v1.3h1.4v6.1h1.3v-6.1h1.4z"
-                                fill="white" />
-                            <path
-                                d="M8.1 13.6c.4 0 .8.1 1.1.2v-1.3c-.3-.1-.7-.1-1.1-.1-1.6 0-2.8.9-2.8 2.8 0 1.6.9 2.8 2.8 2.8.4 0 .8-.1 1.1-.2v-1.3c-.3.2-.7.3-1.1.3-.9 0-1.5-.6-1.5-1.6 0-1 .6-1.6 1.5-1.6z"
-                                fill="white" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- Tailwind -->
-                        <svg viewBox="0 0 24 24" fill="#06B6D4">
-                            <path
-                                d="M12 6C9.33 6 7.67 7.33 7 10c1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35.98 1 2.09 2.15 4.6 2.15 2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C15.62 7.15 14.51 6 12 6zm-5 6c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35C8.38 16.85 9.49 18 12 18c2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C10.62 13.15 9.51 12 7 12z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="skill-name" data-i18n="skill1_name">Frontend</div>
-                <div class="skill-desc" data-i18n="skill1_desc">Interfaces modernas, rápidas y responsivas con foco en
-                    UX.</div>
-            </div>
-
-            <!-- Backend -->
-            <div class="skill-item">
-                <div class="skill-logos">
-                    <div class="skill-logo"><!-- Node.js -->
-                        <svg viewBox="0 0 24 24" fill="#339933">
-                            <path
-                                d="M12 2L2 7.5v9L12 22l10-5.5v-9L12 2zm0 2.3l7.5 4.1v8.2L12 20.7l-7.5-4.1V8.4L12 4.3zM8.5 14.5c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5-.7-1.5-1.5-1.5-1.5.7-1.5 1.5zm5.5 0c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5-.7-1.5-1.5-1.5-1.5.7-1.5 1.5zm-5.5-5c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5S10.8 8 10 8s-1.5.7-1.5 1.5zm5.5 0c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5S14.8 8 14 8s-1.5.7-1.5 1.5z" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- Express (E) -->
-                        <svg viewBox="0 0 24 24" fill="currentColor"><text x="4" y="17" font-size="14"
-                                font-weight="bold" font-family="monospace">Ex</text></svg>
-                    </div>
-                    <div class="skill-logo"><!-- PostgreSQL -->
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
-                                fill="#336791" />
-                            <path d="M8 8h3v8H8zm5 0h3v8h-3z" fill="white" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- MongoDB -->
-                        <svg viewBox="0 0 24 24" fill="#47A248">
-                            <path
-                                d="M12 2C8.5 7 7 10 7 13c0 2.8 2.2 5 5 5s5-2.2 5-5c0-3-1.5-6-5-11zm0 14.5c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="skill-name" data-i18n="skill2_name">Backend</div>
-                <div class="skill-desc" data-i18n="skill2_desc">APIs robustas, seguras y bien estructuradas para
-                    escalar.</div>
-            </div>
-
-            <!-- Deploy -->
-            <div class="skill-item">
-                <div class="skill-logos">
-                    <div class="skill-logo"><!-- Vercel -->
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2L2 19h20L12 2z" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- Docker -->
-                        <svg viewBox="0 0 24 24" fill="#2496ED">
-                            <path
-                                d="M13 4h2v2h-2V4zm-3 0h2v2h-2V4zM7 4h2v2H7V4zm9 3h2v2h-2V7zm-3 0h2v2h-2V7zm-3 0h2v2h-2V7zm-3 0h2v2H7V7zm-3 0h2v2H4V7zm0 3h2v2H4v-2zm3 0h2v2H7v-2zm3 0h2v2h-2v-2zm3 0h2v2h-2v-2zm3 0h2v2h-2v-2zm2.7 1.2c-.2-.1-.6-.2-1-.2-.2 0-.3 0-.5.1-.1-.5-.5-.9-1-.9-.3 0-.5.1-.7.3-.3-.8-1-1.3-1.8-1.3-.5 0-.9.2-1.2.5V10H4v2.5c0 2.5 2 4.5 4.5 4.5h6c1.9 0 3.5-1.4 3.9-3.2.3.1.6.2.9.2 1.4 0 2.5-1 2.7-2.3v-.1c0-.5-.2-1-.4-1.4z" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- AWS -->
-                        <svg viewBox="0 0 24 24" fill="#FF9900">
-                            <path
-                                d="M7 13.5c-.7.3-1.2.4-1.8.4-1.8 0-3.2-1.4-3.2-3.2S3.4 7.5 5.2 7.5c.6 0 1.2.2 1.7.5V6.4C6.4 6.1 5.8 6 5.2 6 2.9 6 1 7.9 1 10.2s1.9 4.2 4.2 4.2c.7 0 1.3-.2 1.8-.4v-1.5c0 .2 0 .7 0 1zM13.5 6h-1.3l-2.5 8.2h1.3l.7-2.2h2.4l.7 2.2h1.3L13.5 6zm-1.6 5l.9-3 .9 3h-1.8zM19.6 6h-1.3v8.2h4.2v-1.2h-2.9V6z" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- Git -->
-                        <svg viewBox="0 0 24 24" fill="#F05032">
-                            <path
-                                d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.09-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="skill-name" data-i18n="skill3_name">Deploy</div>
-                <div class="skill-desc" data-i18n="skill3_desc">Proyectos listos para producción con CI/CD y cloud
-                    moderno.</div>
-            </div>
-
-            <!-- Integraciones -->
-            <div class="skill-item">
-                <div class="skill-logos">
-                    <div class="skill-logo"><!-- Stripe -->
-                        <svg viewBox="0 0 24 24" fill="#635BFF">
-                            <path
-                                d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- Firebase -->
-                        <svg viewBox="0 0 24 24" fill="#FFCA28">
-                            <path
-                                d="M5.229 13.227L8.674 3.261a.421.421 0 0 1 .79-.052l2.055 3.864 1.418-2.698a.421.421 0 0 1 .756.033l4.913 10.83L12 17.834l-6.771-4.607zM3.195 18.006l1.52-8.87L9.3 17.5 3.195 18.006zM20.805 18.006L14.7 17.5l5.585-8.364 1.52 8.87z" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- GraphQL -->
-                        <svg viewBox="0 0 24 24" fill="#E10098">
-                            <path
-                                d="M12 2l9.5 5.5v11L12 22 2.5 16.5v-11L12 2zm0 2.31L4.5 8.93v6.14L12 19.69l7.5-4.62V8.93L12 4.31zM7 9.5h10v1H7v-1zm0 4h10v1H7v-1z" />
-                        </svg>
-                    </div>
-                    <div class="skill-logo"><!-- REST API -->
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <rect x="2" y="6" width="20" height="3" rx="1.5" fill="#22c55e" />
-                            <rect x="2" y="11" width="15" height="3" rx="1.5" fill="#3b82f6" />
-                            <rect x="2" y="16" width="18" height="3" rx="1.5" fill="#f59e0b" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="skill-name" data-i18n="skill4_name">Integraciones</div>
-                <div class="skill-desc" data-i18n="skill4_desc">Conexión con servicios de terceros, pagos y
-                    notificaciones.</div>
-            </div>
-
-        </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- PROJECTS -->
-    <section id="projects">
-        <div class="section-eyebrow" data-i18n="proj_eyebrow">Trabajo selecto</div>
-        <h2 class="section-title"><span data-i18n="proj_title1">Proyectos</span> <em
-                data-i18n="proj_title2">recientes</em></h2>
-
-        <div class="projects-list">
-            <a href="#" class="project-row">
-                <div class="project-num">01</div>
-                <div class="project-info">
-                    <div class="project-cat">E-commerce · Full Stack</div>
-                    <div class="project-name">ShopFlow</div>
-                    <div class="project-desc" data-i18n="proj1_desc">Tienda online con carrito, checkout con Stripe y
-                        panel admin. Next.js + PostgreSQL.</div>
-                </div>
-                <div class="project-arrow">↗</div>
-            </a>
-            <a href="#" class="project-row">
-                <div class="project-num">02</div>
-                <div class="project-info">
-                    <div class="project-cat">SaaS · Dashboard</div>
-                    <div class="project-name">MetricBoard</div>
-                    <div class="project-desc" data-i18n="proj2_desc">Dashboard analítico en tiempo real. Visualización
-                        de datos y reportes automáticos.</div>
-                </div>
-                <div class="project-arrow">↗</div>
-            </a>
-            <a href="#" class="project-row">
-                <div class="project-num">03</div>
-                <div class="project-info">
-                    <div class="project-cat">API · Backend</div>
-                    <div class="project-name">ChatAPI</div>
-                    <div class="project-desc" data-i18n="proj3_desc">API REST de mensajería con JWT, salas de chat y
-                        notificaciones push en tiempo real.</div>
-                </div>
-                <div class="project-arrow">↗</div>
-            </a>
-        </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- ABOUT -->
-    <section id="about">
-        <div class="about-layout">
-            <div class="about-sticky">
-                <div class="section-eyebrow" data-i18n="about_eyebrow">Sobre mí</div>
-                <h2 class="section-title" style="margin-bottom:1.5rem"><span data-i18n="about_title1">Hola, soy</span>
-                    <em>Lucas</em></h2>
-                <div class="about-img-placeholder">👨‍💻</div>
-            </div>
-            <div class="about-content">
-                <p data-i18n="about_p1">Soy <strong>desarrollador web autodidacta</strong>. En 6 meses aprendí a
-                    construir aplicaciones completas de cero, desde el diseño hasta el deploy en producción.</p>
-                <p data-i18n="about_p2">Me especializo en el stack de <strong>JavaScript moderno</strong>: React y
-                    Next.js en el frontend, Node.js y PostgreSQL en el backend. Me importa mucho la calidad del código:
-                    limpio, mantenible y bien documentado.</p>
-                <p data-i18n="about_p3">Soy una persona muy <strong>comprometida con cada proyecto</strong>.
-                    Comunicación directa, entregas en tiempo y siempre dispuesto a iterar hasta que el resultado sea el
-                    correcto.</p>
-                <p data-i18n="about_p4">Estoy en una etapa de crecimiento constante — aprendiendo algo nuevo todos los
-                    días y buscando mis primeras oportunidades reales para demostrar lo que puedo hacer.</p>
-                <ul class="about-list">
-                    <li><span>📍</span> <span data-i18n="about_loc">Basado en Argentina 🇦🇷</span></li>
-                    <li><span>🌐</span> <span data-i18n="about_remote">Disponible para trabajo remoto</span></li>
-                    <li><span>📚</span> <span data-i18n="about_self">Autodidacta en constante aprendizaje</span></li>
-                    <li><span>💬</span> <span data-i18n="about_lang">Español (nativo)</span></li>
-                    <li><span>✉️</span> lucasgorinidev@gmail.com</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" style="padding-top: 2rem;">
-        <div class="contact-inner">
-            <div class="section-eyebrow" data-i18n="contact_eyebrow">Contacto</div>
-            <h2 class="contact-title"><span data-i18n="contact_title1">¿Tenés un</span> <em
-                    data-i18n="contact_title2">proyecto</em><br><span data-i18n="contact_title3">en mente?</span></h2>
-            <p class="contact-sub" data-i18n="contact_sub">Estoy abierto a nuevas oportunidades. Contame qué necesitás y
-                vemos cómo puedo ayudarte.</p>
-            <div class="contact-grid">
-                <a href="mailto:lucasgorinidev@gmail.com" class="contact-btn">📧 lucasgorinidev@gmail.com</a>
-                <a href="https://www.linkedin.com/in/lucas-gorini/" target="_blank" class="contact-btn">🔗 LinkedIn</a>
-                <a href="https://github.com/Schenvz" target="_blank" class="contact-btn">🐙 GitHub</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-logo">Lucas Gorini.</div>
-        <div class="footer-lang">
-            <button class="footer-lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
-            <button class="footer-lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
-        </div>
-        <p>Independent Web Developer · Argentina 🇦🇷 · 2026</p>
-    </footer>
-
-    <script>
-        // ===== TECH PILLS WITH LOGOS =====
-        const techs = [
-            { name: 'React', svg: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5" fill="#61DAFB"/><g stroke="#61DAFB" stroke-width="1.2" fill="none"><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></g></svg>` },
-            { name: 'Next.js', svg: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.052.54-.052.479 0 .558.019.683.155a466.83 466.83 0 0 1 2.895 4.361c1.558 2.362 3.687 5.587 4.734 7.171l1.9 2.878.096-.063a12.317 12.317 0 0 0 2.465-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747C22.25 5.917 19.21 2.28 15.023.56A12.077 12.077 0 0 0 12.552.008C12.208-.006 11.69-.002 11.572 0z"/></svg>` },
-            { name: 'TypeScript', svg: `<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#3178C6"/><path d="M13.1 12.1h2.9v1.3h-1.6v6.1h-1.3v-6.1H11.5v-1.3h1.6zm4.5 1.3v-1.3h-4.1v1.3h1.4v6.1h1.3v-6.1h1.4z" fill="white"/><path d="M8.1 13.6c.4 0 .8.1 1.1.2v-1.3c-.3-.1-.7-.1-1.1-.1-1.6 0-2.8.9-2.8 2.8 0 1.6.9 2.8 2.8 2.8.4 0 .8-.1 1.1-.2v-1.3c-.3.2-.7.3-1.1.3-.9 0-1.5-.6-1.5-1.6 0-1 .6-1.6 1.5-1.6z" fill="white"/></svg>` },
-            { name: 'Node.js', svg: `<svg viewBox="0 0 24 24"><path d="M12 1.85c-.27 0-.55.07-.78.2L3.78 6.35C3.3 6.6 3 7.1 3 7.64V16.36c0 .54.3 1.04.78 1.29l7.44 4.3c.48.26 1.08.26 1.56 0l7.44-4.3c.48-.26.78-.75.78-1.29V7.64c0-.54-.3-1.04-.78-1.29L12.78 2.05c-.23-.13-.51-.2-.78-.2z" fill="#339933"/><path d="M12 4.15l5.5 3.18v6.34L12 16.85l-5.5-3.18V7.33L12 4.15z" fill="#fff" opacity="0.3"/></svg>` },
-            { name: 'PostgreSQL', svg: `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#336791"/><path d="M8 8h2v8H8zm3.5 0H14c1.1 0 2 .9 2 2s-.9 2-2 2h-2.5V8zm0 5.5H14c1.1 0 2 .9 2 2s-.9 2-2 2h-2.5v-4z" fill="white"/></svg>` },
-            { name: 'Tailwind', svg: `<svg viewBox="0 0 24 24" fill="#06B6D4"><path d="M12 6C9.33 6 7.67 7.33 7 10c1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35.98 1 2.09 2.15 4.6 2.15 2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C15.62 7.15 14.51 6 12 6zm-5 6c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35C8.38 16.85 9.49 18 12 18c2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C10.62 13.15 9.51 12 7 12z"/></svg>` },
-            { name: 'Docker', svg: `<svg viewBox="0 0 24 24" fill="#2496ED"><path d="M13 4h2v2h-2V4zm-3 0h2v2h-2V4zM7 4h2v2H7V4zm9 3h2v2h-2V7zm-3 0h2v2h-2V7zm-3 0h2v2h-2V7zm-3 0h2v2H7V7zm-3 0h2v2H4V7zm0 3h2v2H4v-2zm3 0h2v2H7v-2zm3 0h2v2h-2v-2zm3 0h2v2h-2v-2zm3 0h2v2h-2v-2zm2.5 1.3c-.2-.1-.5-.2-.9-.2-.1 0-.3 0-.4.1-.1-.5-.5-.9-1-.9-.2 0-.4.1-.6.3-.3-.8-1-1.3-1.8-1.3-.4 0-.8.2-1.1.5V10H4v2.5c0 2.5 2 4.5 4.5 4.5h5.5c1.9 0 3.5-1.4 3.9-3.2.3.1.5.2.8.2 1.4 0 2.5-1 2.7-2.3 0-.5-.2-1-.4-1.4z"/></svg>` },
-            { name: 'Vercel', svg: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 19h20L12 2z"/></svg>` },
-        ];
-
-        const techList = document.getElementById('tech-list');
-        techs.forEach(t => {
-            const pill = document.createElement('div');
-            pill.className = 'tech-pill';
-            pill.innerHTML = `${t.svg}<span>${t.name}</span>`;
-            techList.appendChild(pill);
-        });
-
-        // ===== DARK / LIGHT MODE =====
-        function toggleTheme() {
-            const html = document.documentElement;
-            html.setAttribute('data-theme', html.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
-        }
-
-        // ===== TRANSLATIONS =====
-        const translations = {
-            es: {
-                nav_stack: 'Stack', nav_projects: 'Proyectos', nav_about: 'Sobre mí', nav_contact: 'Contacto',
-                badge_open: 'Open to work', badge_hire: 'Available for hire',
-                hero_line1: 'Desarrollo web', hero_line2: 'que funciona', hero_line3: 'de verdad.',
-                hero_sub: 'Soy Lucas Gorini, Independent Web Developer. Construyo aplicaciones modernas con React, Next.js y Node.js, con foco en calidad y entregas reales.',
-                btn_projects: 'Ver proyectos', btn_contact: 'Trabajemos juntos →',
-                stack_label: 'Stack principal',
-                stat_months: 'Meses programando', stat_commit: 'Compromiso',
-                skills_eyebrow: 'Stack técnico', skills_title1: 'Lo que', skills_title2: 'construyo',
-                skill1_name: 'Frontend', skill1_desc: 'Interfaces modernas, rápidas y responsivas con foco en UX.',
-                skill2_name: 'Backend', skill2_desc: 'APIs robustas, seguras y bien estructuradas para escalar.',
-                skill3_name: 'Deploy', skill3_desc: 'Proyectos listos para producción con CI/CD y cloud moderno.',
-                skill4_name: 'Integraciones', skill4_desc: 'Conexión con servicios de terceros, pagos y notificaciones.',
-                proj_eyebrow: 'Trabajo selecto', proj_title1: 'Proyectos', proj_title2: 'recientes',
-                proj1_desc: 'Tienda online con carrito, checkout con Stripe y panel admin. Next.js + PostgreSQL.',
-                proj2_desc: 'Dashboard analítico en tiempo real. Visualización de datos y reportes automáticos.',
-                proj3_desc: 'API REST de mensajería con JWT, salas de chat y notificaciones push en tiempo real.',
-                about_eyebrow: 'Sobre mí', about_title1: 'Hola, soy',
-                about_p1: 'Soy <strong>desarrollador web autodidacta</strong>. En 6 meses aprendí a construir aplicaciones completas de cero, desde el diseño hasta el deploy en producción.',
-                about_p2: 'Me especializo en el stack de <strong>JavaScript moderno</strong>: React y Next.js en el frontend, Node.js y PostgreSQL en el backend. Me importa mucho la calidad del código: limpio, mantenible y bien documentado.',
-                about_p3: 'Soy una persona muy <strong>comprometida con cada proyecto</strong>. Comunicación directa, entregas en tiempo y siempre dispuesto a iterar hasta que el resultado sea el correcto.',
-                about_p4: 'Estoy en una etapa de crecimiento constante — aprendiendo algo nuevo todos los días y buscando mis primeras oportunidades reales para demostrar lo que puedo hacer.',
-                about_loc: 'Basado en Argentina 🇦🇷', about_remote: 'Disponible para trabajo remoto',
-                about_self: 'Autodidacta en constante aprendizaje', about_lang: 'Español (nativo)',
-                contact_eyebrow: 'Contacto', contact_title1: '¿Tenés un', contact_title2: 'proyecto', contact_title3: 'en mente?',
-                contact_sub: 'Estoy abierto a nuevas oportunidades. Contame qué necesitás y vemos cómo puedo ayudarte.',
-            },
-            en: {
-                nav_stack: 'Stack', nav_projects: 'Projects', nav_about: 'About', nav_contact: 'Contact',
-                badge_open: 'Open to work', badge_hire: 'Available for hire',
-                hero_line1: 'Web development', hero_line2: 'that actually', hero_line3: 'works.',
-                hero_sub: "I'm Lucas Gorini, Independent Web Developer. I build modern applications with React, Next.js and Node.js, focused on quality and real delivery.",
-                btn_projects: 'See projects', btn_contact: "Let's work together →",
-                stack_label: 'Main stack',
-                stat_months: 'Months coding', stat_commit: 'Commitment',
-                skills_eyebrow: 'Tech stack', skills_title1: 'What I', skills_title2: 'build',
-                skill1_name: 'Frontend', skill1_desc: 'Modern, fast, responsive interfaces focused on UX.',
-                skill2_name: 'Backend', skill2_desc: 'Robust, secure and well-structured APIs built to scale.',
-                skill3_name: 'Deploy', skill3_desc: 'Production-ready projects with CI/CD and modern cloud.',
-                skill4_name: 'Integrations', skill4_desc: 'Third-party services, payments, and notifications.',
-                proj_eyebrow: 'Selected work', proj_title1: 'Recent', proj_title2: 'projects',
-                proj1_desc: 'Online store with cart, Stripe checkout and admin panel. Next.js + PostgreSQL.',
-                proj2_desc: 'Real-time analytics dashboard. Data visualization and automated reports.',
-                proj3_desc: 'REST messaging API with JWT, chat rooms and real-time push notifications.',
-                about_eyebrow: 'About me', about_title1: "Hi, I'm",
-                about_p1: "I'm a <strong>self-taught web developer</strong>. In 6 months I learned to build complete applications from scratch, from design to production deployment.",
-                about_p2: "I specialize in the <strong>modern JavaScript stack</strong>: React and Next.js on the frontend, Node.js and PostgreSQL on the backend. I care deeply about code quality: clean, maintainable and well-documented.",
-                about_p3: "I'm very <strong>committed to every project</strong>. Direct communication, on-time delivery and always willing to iterate until the result is right.",
-                about_p4: "I'm in a constant growth phase — learning something new every day and looking for my first real opportunities to show what I can do.",
-                about_loc: 'Based in Argentina 🇦🇷', about_remote: 'Available for remote work',
-                about_self: 'Self-taught, always learning', about_lang: 'Spanish (native)',
-                contact_eyebrow: 'Contact', contact_title1: 'Got a', contact_title2: 'project', contact_title3: 'in mind?',
-                contact_sub: "I'm open to new opportunities. Tell me what you need and let's figure out how I can help.",
-            }
-        };
-
-        let currentLang = 'es';
-
-        function setLang(lang) {
-            currentLang = lang;
-            const t = translations[lang];
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (t[key] !== undefined) el.innerHTML = t[key];
-            });
-            document.documentElement.lang = lang;
-            // Update nav lang button
-            document.getElementById('lang-flag').textContent = lang === 'es' ? '🇺🇸' : '🇦🇷';
-            document.getElementById('lang-label').textContent = lang === 'es' ? 'EN' : 'ES';
-            // Update footer buttons
-            document.getElementById('btn-es').classList.toggle('active', lang === 'es');
-            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        }
-
-        function toggleLang() {
-            setLang(currentLang === 'es' ? 'en' : 'es');
-        }
-    </script>
+  </div>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-badges">
+      <div class="hero-badge"><span class="badge-dot"></span><span data-i18n="badge_open">Open to work</span></div>
+      <div class="hero-badge">✦ <span data-i18n="badge_hire">Available for hire</span></div>
+    </div>
+    <h1 class="hero-title">
+      <span data-i18n="hero_l1">Desarrollo web</span><br>
+      <em data-i18n="hero_l2">que funciona</em><br>
+      <span data-i18n="hero_l3">de verdad.</span>
+    </h1>
+    <p class="hero-sub" data-i18n="hero_sub">Soy Lucas Gorini, Independent Web Developer. Construyo aplicaciones modernas con React, Next.js y Node.js, con foco en calidad y entregas reales.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-dark"    data-i18n="btn_proj">Ver proyectos</a>
+      <a href="#contact"  class="btn-outline" data-i18n="btn_contact">Trabajemos juntos →</a>
+      <a href="CV-Lucas-Gorini.pdf" download class="btn-cv">⬇ <span data-i18n="btn_cv">Descargar CV</span></a>
+    </div>
+  </div>
+ 
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="hero-card-label" data-i18n="stack_label">Stack principal</div>
+      <div class="tech-list" id="tech-list"></div>
+    </div>
+    <div class="hero-stat-row">
+      <div class="hero-stat">
+        <div class="hero-stat-num">UTN</div>
+        <div class="hero-stat-label" data-i18n="stat_utn">Ing. en Sistemas</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-label" data-i18n="stat_commit">Compromiso</div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<div class="divider"></div>
+ 
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-eyebrow reveal" data-i18n="skills_eyebrow">Stack técnico</div>
+  <h2 class="section-title reveal"><span data-i18n="skills_t1">Lo que</span> <em data-i18n="skills_t2">construyo</em></h2>
+  <div class="skills-list">
+    <div class="skill-item reveal">
+      <div class="skill-logos">
+        <div class="skill-logo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.4" fill="#61DAFB"/><g stroke="#61DAFB" stroke-width="1.1" fill="none"><ellipse cx="12" cy="12" rx="10" ry="3.8"/><ellipse cx="12" cy="12" rx="10" ry="3.8" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="3.8" transform="rotate(120 12 12)"/></g></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.052.54-.052.479 0 .558.019.683.155a466.83 466.83 0 0 1 2.895 4.361c1.558 2.362 3.687 5.587 4.734 7.171l1.9 2.878.096-.063a12.317 12.317 0 0 0 2.465-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747C22.25 5.917 19.21 2.28 15.023.56A12.077 12.077 0 0 0 12.552.008C12.208-.006 11.69-.002 11.572 0z"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#3178C6"/><path d="M14 10.3h2.6v1.2h-1.4v5.5H14v-5.5h-1.2v-1.2H14zm3.8 1.2v-1.2H14v1.2h1.3v5.5h1.2v-5.5h1.3z" fill="white"/><path d="M9.5 11.6c.3 0 .7.1 1 .2v-1.2c-.3-.1-.6-.1-1-.1-1.4 0-2.5.8-2.5 2.5 0 1.4.8 2.5 2.5 2.5.4 0 .7-.1 1-.2v-1.2c-.3.2-.6.3-1 .3-.8 0-1.3-.5-1.3-1.4 0-.9.5-1.4 1.3-1.4z" fill="white"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="#06B6D4"><path d="M12 6C9.33 6 7.67 7.33 7 10c1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35.98 1 2.09 2.15 4.6 2.15 2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C15.62 7.15 14.51 6 12 6zm-5 6c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35C8.38 16.85 9.49 18 12 18c2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C10.62 13.15 9.51 12 7 12z"/></svg></div>
+      </div>
+      <div class="skill-name" data-i18n="s1_name">Frontend</div>
+      <div class="skill-desc" data-i18n="s1_desc">Interfaces modernas, rápidas y responsivas con foco en UX.</div>
+    </div>
+    <div class="skill-item reveal" style="transition-delay:.1s">
+      <div class="skill-logos">
+        <div class="skill-logo"><svg viewBox="0 0 24 24"><path d="M12 1.85c-.27 0-.55.07-.78.2L3.78 6.35C3.3 6.6 3 7.1 3 7.64V16.36c0 .54.3 1.04.78 1.29l7.44 4.3c.48.26 1.08.26 1.56 0l7.44-4.3c.48-.26.78-.75.78-1.29V7.64c0-.54-.3-1.04-.78-1.29L12.78 2.05c-.23-.13-.51-.2-.78-.2z" fill="#339933"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="currentColor"><text x="3" y="16" font-size="11" font-weight="800" font-family="monospace" fill="#888">Ex</text></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" fill="#336791"/><path d="M3 5v4c0 1.66 4.03 3 9 3s9-1.34 9-3V5" fill="#336791" opacity=".7"/><path d="M3 9v4c0 1.66 4.03 3 9 3s9-1.34 9-3V9" fill="#336791" opacity=".5"/><path d="M3 13v4c0 1.66 4.03 3 9 3s9-1.34 9-3v-4" fill="#336791" opacity=".35"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="#47A248"><path d="M12 2C8.1 7.2 6.5 10.5 6.5 13.2c0 3 2.5 5.3 5.5 5.3s5.5-2.3 5.5-5.3C17.5 10.5 15.9 7.2 12 2zm0 15c-.9 0-1.6-.7-1.6-1.6s.7-1.6 1.6-1.6 1.6.7 1.6 1.6-.7 1.6-1.6 1.6z"/></svg></div>
+      </div>
+      <div class="skill-name" data-i18n="s2_name">Backend</div>
+      <div class="skill-desc" data-i18n="s2_desc">APIs robustas, seguras y bien estructuradas para escalar.</div>
+    </div>
+    <div class="skill-item reveal" style="transition-delay:.2s">
+      <div class="skill-logos">
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 19.5h20L12 2z"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="#2496ED"><path d="M13 4h2v2h-2V4zm-3 0h2v2h-2V4zM7 4h2v2H7V4zm9 3h2v2h-2V7zm-3 0h2v2h-2V7zm-3 0h2v2h-2V7zm-3 0h2v2H7V7zm-3 0h2v2H4V7zm0 3h2v2H4v-2zm3 0h2v2H7v-2zm3 0h2v2h-2v-2zm3 0h2v2h-2v-2zm3 0h2v2h-2v-2zm2.3 1.1c-.2-.1-.5-.2-.9-.2h-.3c-.1-.4-.4-.8-.9-.8-.2 0-.4.1-.6.2-.3-.7-1-1.1-1.7-1.1-.4 0-.8.1-1.1.4V10H4v2.5C4 15 6 17 8.5 17H14c1.9 0 3.4-1.3 3.8-3 .3.1.5.1.7.1 1.3 0 2.4-.9 2.5-2.2-.1-.7-.3-1.2-.7-1.8z"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="#F05032"><path d="M23.5 11L13 .5c-.6-.6-1.5-.6-2.1 0L8.7 2.7l2.6 2.6c.6-.2 1.3-.1 1.8.4.5.5.6 1.2.4 1.8l2.5 2.5c.6-.2 1.3-.1 1.8.4.7.7.7 1.8 0 2.5-.7.7-1.8.7-2.5 0-.5-.5-.6-1.2-.4-1.9L12.4 9v6.2c.2.1.3.2.5.3.7.7.7 1.8 0 2.5-.7.7-1.8.7-2.5 0-.7-.7-.7-1.8 0-2.5.2-.2.4-.3.6-.4V8.8c-.2-.1-.4-.2-.6-.4-.5-.5-.6-1.2-.4-1.9L7.6 4l-7 7c-.6.6-.6 1.5 0 2.1L11.1 23.5c.6.6 1.5.6 2.1 0L23.5 13c.6-.6.6-1.4 0-2z"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="#FF9900"><path d="M6.7 13.8c-.7.3-1.1.4-1.7.4C3.3 14.2 2 12.9 2 11.2s1.3-3 3-3c.6 0 1.1.2 1.6.5V7.1C6.2 6.8 5.6 6.7 5 6.7 2.8 6.7 1 8.5 1 10.8s1.8 4.1 4 4.1c.7 0 1.2-.1 1.7-.4v-1.7zM13 6.7h-1.2l-2.3 7.5H10.7l.6-2h2.2l.6 2h1.3L13 6.7zm-1.4 4.5l.8-2.8.8 2.8h-1.6zM19.2 6.7H18v7.5h3.8v-1.1h-2.6V6.7z"/></svg></div>
+      </div>
+      <div class="skill-name" data-i18n="s3_name">Deploy</div>
+      <div class="skill-desc" data-i18n="s3_desc">Proyectos listos para producción con CI/CD y cloud moderno.</div>
+    </div>
+    <div class="skill-item reveal" style="transition-delay:.3s">
+      <div class="skill-logos">
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="#635BFF"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="#FFCA28"><path d="M5.2 13.2L8.7 3.2a.4.4 0 0 1 .76-.05l2 3.75 1.37-2.6a.4.4 0 0 1 .72.03l4.75 10.47L12 17.8l-6.8-4.6zM3.2 17.9l1.47-8.57L9.28 17.4 3.2 17.9zM20.8 17.9L14.72 17.4l5.61-8.07 1.47 8.57z"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24" fill="#E10098"><path d="M12 2l9.3 5.4v10.8L12 22l-9.3-5.4V7.4L12 2zm0 2.2L4.5 8.5v7.6L12 19.8l7.5-3.7V8.5L12 4.2zM7.5 9.5h9v1h-9v-1zm0 4h9v1h-9v-1z"/></svg></div>
+        <div class="skill-logo"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="3" rx="1.5" fill="#22c55e"/><rect x="2" y="11" width="15" height="3" rx="1.5" fill="#3b82f6"/><rect x="2" y="16" width="18" height="3" rx="1.5" fill="#f59e0b"/></svg></div>
+      </div>
+      <div class="skill-name" data-i18n="s4_name">Integraciones</div>
+      <div class="skill-desc" data-i18n="s4_desc">Conexión con servicios de terceros, pagos y notificaciones.</div>
+    </div>
+  </div>
+</section>
+ 
+<div class="divider"></div>
+ 
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-eyebrow reveal" data-i18n="exp_eyebrow">Trayectoria</div>
+  <h2 class="section-title reveal"><span data-i18n="exp_t1">Mi</span> <em data-i18n="exp_t2">experiencia</em></h2>
+  <div class="exp-list">
+    <div class="exp-item reveal">
+      <div class="exp-header">
+        <div class="exp-role" data-i18n="exp1_role">Carrera Full-Stack Developer</div>
+        <div class="exp-date">2023 – 2024</div>
+      </div>
+      <div class="exp-company">Coderhouse · Front-end & Back-end</div>
+      <div class="exp-desc" data-i18n="exp1_desc">Formación intensiva en desarrollo web fullstack. Aprendí HTML, CSS, JavaScript, React y Node.js construyendo proyectos reales desde cero.</div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-header">
+        <div class="exp-role" data-i18n="exp2_role">Ingeniería en Sistemas de Información</div>
+        <div class="exp-date">2024 – Actualidad</div>
+      </div>
+      <div class="exp-company">Universidad Tecnológica Nacional (UTN)</div>
+      <div class="exp-desc" data-i18n="exp2_desc">Cursando la carrera mientras desarrollo proyectos web en paralelo. Formación sólida en algoritmia, bases de datos, redes y fundamentos de software.</div>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-header">
+        <div class="exp-role" data-i18n="exp3_role">Vendedor y Gestor Digital</div>
+        <div class="exp-date">2022 – 2024</div>
+      </div>
+      <div class="exp-company">Mercado Libre · Buenos Aires</div>
+      <div class="exp-desc" data-i18n="exp3_desc">Administración de productos y servicios digitales, análisis de métricas, optimización de publicaciones y atención al cliente. Desarrollé habilidades de análisis de datos y comunicación efectiva.</div>
+    </div>
+  </div>
+</section>
+ 
+<div class="divider"></div>
+ 
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-eyebrow reveal" data-i18n="proj_eyebrow">Trabajo selecto</div>
+  <h2 class="section-title reveal"><span data-i18n="proj_t1">Proyectos</span> <em data-i18n="proj_t2">recientes</em></h2>
+  <div class="projects-list">
+    <a href="#" class="project-row reveal">
+      <div class="project-num">01</div>
+      <div class="project-info">
+        <div class="project-cat">E-commerce · Full Stack</div>
+        <div class="project-name">ShopFlow</div>
+        <div class="project-desc" data-i18n="p1_desc">Tienda online con carrito, checkout con Stripe y panel admin. Next.js + PostgreSQL.</div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
+    <a href="#" class="project-row reveal">
+      <div class="project-num">02</div>
+      <div class="project-info">
+        <div class="project-cat">SaaS · Dashboard</div>
+        <div class="project-name">MetricBoard</div>
+        <div class="project-desc" data-i18n="p2_desc">Dashboard analítico en tiempo real. Visualización de datos y reportes automáticos.</div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
+    <a href="#" class="project-row reveal">
+      <div class="project-num">03</div>
+      <div class="project-info">
+        <div class="project-cat">API · Backend</div>
+        <div class="project-name">ChatAPI</div>
+        <div class="project-desc" data-i18n="p3_desc">API REST de mensajería con JWT, salas de chat y notificaciones push en tiempo real.</div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
+  </div>
+</section>
+ 
+<div class="divider"></div>
+ 
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-eyebrow reveal" data-i18n="blog_eyebrow">Notas & aprendizaje</div>
+  <h2 class="section-title reveal"><span data-i18n="blog_t1">Lo que</span> <em data-i18n="blog_t2">aprendí</em></h2>
+  <div class="blog-grid">
+    <div class="blog-card reveal">
+      <div class="blog-tag" data-i18n="blog1_tag">React · Frontend</div>
+      <div class="blog-title" data-i18n="blog1_title">Cómo pasé de no entender un componente a construir apps completas en React en 3 meses</div>
+      <div class="blog-excerpt" data-i18n="blog1_excerpt">Cuando vi React por primera vez pensé que era magia negra. Props, estado, hooks, efectos — todo junto al mismo tiempo. Lo que cambió todo fue dejar de copiar tutoriales y empezar a romper cosas: eliminar código, ver qué se rompía, entender por qué. En 3 meses pasé de no entender qué era un componente a tener una app fullstack desplegada en Vercel con autenticación, rutas dinámicas y conexión a base de datos real. La clave: construir cosas feas que funcionen antes de construir cosas lindas que no sirvan para nada.</div>
+      <div class="blog-meta">
+        <span>Lucas Gorini</span>
+        <span class="blog-dot"></span>
+        <span data-i18n="blog1_time">5 min de lectura</span>
+        <span class="blog-dot"></span>
+        <span>2025</span>
+      </div>
+    </div>
+    <div class="blog-card reveal" style="transition-delay:.15s">
+      <div class="blog-tag" data-i18n="blog2_tag">Node.js · Backend · APIs</div>
+      <div class="blog-title" data-i18n="blog2_title">El día que construí mi primera API REST desde cero y entendí cómo funciona internet</div>
+      <div class="blog-excerpt" data-i18n="blog2_excerpt">Siempre usé APIs de terceros sin entender qué pasaba por adentro. El día que construí la mía propia — con Express, rutas, middlewares, JWT y conexión a PostgreSQL — fue como ver la matrix. Entendí qué es una request, una response, un status code, por qué 401 no es lo mismo que 403, y cómo una contraseña nunca debería guardarse en texto plano. Ahora cuando uso una API ajena sé exactamente lo que está pasando del otro lado. Ese conocimiento vale oro.</div>
+      <div class="blog-meta">
+        <span>Lucas Gorini</span>
+        <span class="blog-dot"></span>
+        <span data-i18n="blog2_time">7 min de lectura</span>
+        <span class="blog-dot"></span>
+        <span>2025</span>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<div class="divider"></div>
+ 
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-layout">
+    <div class="about-sticky reveal-left">
+      <div class="section-eyebrow" data-i18n="about_eyebrow">Sobre mí</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem"><span data-i18n="about_t1">Hola, soy</span> <em>Lucas</em></h2>
+      <div class="about-img-placeholder">👨‍💻</div>
+    </div>
+    <div class="about-content reveal-right">
+      <p data-i18n="about_p1">Soy <strong>desarrollador web autodidacta</strong> cursando Ingeniería en Sistemas en la UTN. Completé la carrera Full-Stack en Coderhouse y sigo aprendiendo todos los días construyendo proyectos reales.</p>
+      <p data-i18n="about_p2">Me especializo en el stack de <strong>JavaScript moderno</strong>: React y Next.js en el frontend, Node.js y PostgreSQL en el backend. También tengo experiencia con soporte técnico, administración de sistemas Windows y Microsoft 365.</p>
+      <p data-i18n="about_p3">Antes de dedicarme al desarrollo trabajé en <strong>Mercado Libre</strong> gestionando ventas digitales. Esa experiencia me dio una visión del producto muy diferente a la del programador típico — entiendo al usuario final y eso se nota en el código que escribo.</p>
+      <p data-i18n="about_p4">Estoy buscando mis primeras oportunidades reales para demostrar lo que puedo hacer. Me comprometo con cada proyecto como si fuera el mío propio.</p>
+      <ul class="about-list">
+        <li><span>📍</span><span data-i18n="a_loc">Palermo, Buenos Aires 🇦🇷</span></li>
+        <li><span>🎓</span><span data-i18n="a_utn">UTN — Ingeniería en Sistemas (en curso)</span></li>
+        <li><span>🌐</span><span data-i18n="a_remote">Disponible para trabajo remoto</span></li>
+        <li><span>💬</span><span data-i18n="a_lang">Español (nativo) · Inglés (intermedio)</span></li>
+        <li><span>✉️</span>lucasgorinidev@gmail.com</li>
+      </ul>
+    </div>
+  </div>
+</section>
+ 
+<!-- CONTACT -->
+<section id="contact" style="padding-top:2rem;">
+  <div class="contact-inner reveal">
+    <div class="section-eyebrow" data-i18n="c_eyebrow">Contacto</div>
+    <h2 class="contact-title"><span data-i18n="c_t1">¿Tenés un</span> <em data-i18n="c_t2">proyecto</em><br><span data-i18n="c_t3">en mente?</span></h2>
+    <p class="contact-sub" data-i18n="c_sub">Estoy abierto a nuevas oportunidades. Contame qué necesitás y vemos cómo puedo ayudarte.</p>
+    <div class="contact-grid">
+      <a href="mailto:lucasgorinidev@gmail.com" class="contact-btn">📧 lucasgorinidev@gmail.com</a>
+      <a href="https://www.linkedin.com/in/lucas-gorini/" target="_blank" class="contact-btn">🔗 LinkedIn</a>
+      <a href="https://github.com/Schenvz" target="_blank" class="contact-btn">🐙 GitHub</a>
+      <a href="CV-Lucas-Gorini.pdf" download class="contact-btn">⬇ <span data-i18n="btn_cv">Descargar CV</span></a>
+    </div>
+  </div>
+</section>
+ 
+<footer>
+  <div class="footer-logo">Lucas Gorini.</div>
+  <div class="footer-lang">
+    <button class="footer-lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
+    <button class="footer-lang-btn"        id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+  <p>Independent Web Developer · Palermo, Buenos Aires 🇦🇷 · 2026</p>
+</footer>
+ 
+<script>
+// ===== SCROLL PROGRESS =====
+window.addEventListener('scroll', () => {
+  const s = document.documentElement;
+  const pct = (window.scrollY / (s.scrollHeight - s.clientHeight)) * 100;
+  document.getElementById('scroll-bar').style.width = pct + '%';
+});
+ 
+// ===== REVEAL ON SCROLL =====
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => observer.observe(el));
+ 
+// ===== TECH PILLS =====
+const techs = [
+  { name:'React',      svg:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.4" fill="#61DAFB"/><g stroke="#61DAFB" stroke-width="1.1" fill="none"><ellipse cx="12" cy="12" rx="10" ry="3.8"/><ellipse cx="12" cy="12" rx="10" ry="3.8" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="3.8" transform="rotate(120 12 12)"/></g></svg>` },
+  { name:'Next.js',    svg:`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.052.54-.052.479 0 .558.019.683.155a466.83 466.83 0 0 1 2.895 4.361c1.558 2.362 3.687 5.587 4.734 7.171l1.9 2.878.096-.063a12.317 12.317 0 0 0 2.465-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747C22.25 5.917 19.21 2.28 15.023.56A12.077 12.077 0 0 0 12.552.008C12.208-.006 11.69-.002 11.572 0z"/></svg>` },
+  { name:'TypeScript', svg:`<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#3178C6"/><path d="M14 10.3h2.6v1.2h-1.4v5.5H14v-5.5h-1.2v-1.2H14zm3.8 1.2v-1.2H14v1.2h1.3v5.5h1.2v-5.5h1.3z" fill="white"/><path d="M9.5 11.6c.3 0 .7.1 1 .2v-1.2c-.3-.1-.6-.1-1-.1-1.4 0-2.5.8-2.5 2.5 0 1.4.8 2.5 2.5 2.5.4 0 .7-.1 1-.2v-1.2c-.3.2-.6.3-1 .3-.8 0-1.3-.5-1.3-1.4 0-.9.5-1.4 1.3-1.4z" fill="white"/></svg>` },
+  { name:'Node.js',    svg:`<svg viewBox="0 0 24 24"><path d="M12 1.85c-.27 0-.55.07-.78.2L3.78 6.35C3.3 6.6 3 7.1 3 7.64V16.36c0 .54.3 1.04.78 1.29l7.44 4.3c.48.26 1.08.26 1.56 0l7.44-4.3c.48-.26.78-.75.78-1.29V7.64c0-.54-.3-1.04-.78-1.29L12.78 2.05c-.23-.13-.51-.2-.78-.2z" fill="#339933"/></svg>` },
+  { name:'PostgreSQL', svg:`<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" fill="#336791"/><path d="M3 5v4c0 1.66 4.03 3 9 3s9-1.34 9-3V5" fill="#336791" opacity=".7"/><path d="M3 9v4c0 1.66 4.03 3 9 3s9-1.34 9-3V9" fill="#336791" opacity=".5"/><path d="M3 13v4c0 1.66 4.03 3 9 3s9-1.34 9-3v-4" fill="#336791" opacity=".35"/></svg>` },
+  { name:'Tailwind',   svg:`<svg viewBox="0 0 24 24" fill="#06B6D4"><path d="M12 6C9.33 6 7.67 7.33 7 10c1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35.98 1 2.09 2.15 4.6 2.15 2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C15.62 7.15 14.51 6 12 6zm-5 6c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.3.74 1.9 1.35C8.38 16.85 9.49 18 12 18c2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.3-.74-1.9-1.35C10.62 13.15 9.51 12 7 12z"/></svg>` },
+  { name:'Docker',     svg:`<svg viewBox="0 0 24 24" fill="#2496ED"><path d="M13 4h2v2h-2V4zm-3 0h2v2h-2V4zM7 4h2v2H7V4zm9 3h2v2h-2V7zm-3 0h2v2h-2V7zm-3 0h2v2h-2V7zm-3 0h2v2H7V7zm-3 0h2v2H4V7zm0 3h2v2H4v-2zm3 0h2v2H7v-2zm3 0h2v2h-2v-2zm3 0h2v2h-2v-2zm3 0h2v2h-2v-2zm2.3 1.1c-.2-.1-.5-.2-.9-.2h-.3c-.1-.4-.4-.8-.9-.8-.2 0-.4.1-.6.2-.3-.7-1-1.1-1.7-1.1-.4 0-.8.1-1.1.4V10H4v2.5C4 15 6 17 8.5 17H14c1.9 0 3.4-1.3 3.8-3 .3.1.5.1.7.1 1.3 0 2.4-.9 2.5-2.2-.1-.7-.3-1.2-.7-1.8z"/></svg>` },
+  { name:'Git',        svg:`<svg viewBox="0 0 24 24" fill="#F05032"><path d="M23.5 11L13 .5c-.6-.6-1.5-.6-2.1 0L8.7 2.7l2.6 2.6c.6-.2 1.3-.1 1.8.4.5.5.6 1.2.4 1.8l2.5 2.5c.6-.2 1.3-.1 1.8.4.7.7.7 1.8 0 2.5-.7.7-1.8.7-2.5 0-.5-.5-.6-1.2-.4-1.9L12.4 9v6.2c.2.1.3.2.5.3.7.7.7 1.8 0 2.5-.7.7-1.8.7-2.5 0-.7-.7-.7-1.8 0-2.5.2-.2.4-.3.6-.4V8.8c-.2-.1-.4-.2-.6-.4-.5-.5-.6-1.2-.4-1.9L7.6 4l-7 7c-.6.6-.6 1.5 0 2.1L11.1 23.5c.6.6 1.5.6 2.1 0L23.5 13c.6-.6.6-1.4 0-2z"/></svg>` },
+];
+const tl = document.getElementById('tech-list');
+techs.forEach(t => {
+  const p = document.createElement('div');
+  p.className = 'tech-pill';
+  p.innerHTML = `${t.svg}<span>${t.name}</span>`;
+  tl.appendChild(p);
+});
+ 
+// ===== THEME =====
+function toggleTheme() {
+  const h = document.documentElement;
+  h.setAttribute('data-theme', h.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+}
+ 
+// ===== i18n =====
+const T = {
+  es: {
+    nav_stack:'Stack', nav_exp:'Experiencia', nav_projects:'Proyectos', nav_blog:'Blog', nav_about:'Sobre mí', nav_contact:'Contacto',
+    badge_open:'Open to work', badge_hire:'Available for hire',
+    hero_l1:'Desarrollo web', hero_l2:'que funciona', hero_l3:'de verdad.',
+    hero_sub:'Soy Lucas Gorini, Independent Web Developer basado en Buenos Aires. Construyo aplicaciones modernas con React, Next.js y Node.js.',
+    btn_proj:'Ver proyectos', btn_contact:'Trabajemos juntos →', btn_cv:'Descargar CV',
+    stack_label:'Stack principal', stat_utn:'Ing. en Sistemas · UTN', stat_commit:'Compromiso',
+    skills_eyebrow:'Stack técnico', skills_t1:'Lo que', skills_t2:'construyo',
+    s1_name:'Frontend', s1_desc:'Interfaces modernas, rápidas y responsivas con foco en UX.',
+    s2_name:'Backend',  s2_desc:'APIs robustas, seguras y bien estructuradas para escalar.',
+    s3_name:'Deploy',   s3_desc:'Proyectos listos para producción con CI/CD y cloud moderno.',
+    s4_name:'Integraciones', s4_desc:'Conexión con servicios de terceros, pagos y notificaciones.',
+    exp_eyebrow:'Trayectoria', exp_t1:'Mi', exp_t2:'experiencia',
+    exp1_role:'Carrera Full-Stack Developer', exp1_desc:'Formación intensiva en desarrollo web fullstack. Aprendí HTML, CSS, JavaScript, React y Node.js construyendo proyectos reales desde cero.',
+    exp2_role:'Ingeniería en Sistemas de Información', exp2_desc:'Cursando la carrera mientras desarrollo proyectos web en paralelo. Formación sólida en algoritmia, bases de datos, redes y fundamentos de software.',
+    exp3_role:'Vendedor y Gestor Digital', exp3_desc:'Administración de productos digitales, análisis de métricas y atención al cliente en Mercado Libre. Desarrollé habilidades de análisis y comunicación efectiva.',
+    proj_eyebrow:'Trabajo selecto', proj_t1:'Proyectos', proj_t2:'recientes',
+    p1_desc:'Tienda online con carrito, checkout con Stripe y panel admin. Next.js + PostgreSQL.',
+    p2_desc:'Dashboard analítico en tiempo real. Visualización de datos y reportes automáticos.',
+    p3_desc:'API REST de mensajería con JWT, salas de chat y notificaciones push en tiempo real.',
+    blog_eyebrow:'Notas & aprendizaje', blog_t1:'Lo que', blog_t2:'aprendí',
+    blog1_tag:'React · Frontend', blog1_title:'Cómo pasé de no entender un componente a construir apps completas en React en 3 meses', blog1_excerpt:'Cuando vi React por primera vez pensé que era magia negra. Lo que cambió todo fue dejar de copiar tutoriales y empezar a romper cosas: eliminar código, ver qué se rompía, entender por qué. En 3 meses pasé de no entender qué era un componente a tener una app fullstack desplegada en Vercel con autenticación, rutas dinámicas y conexión a base de datos real.', blog1_time:'5 min de lectura',
+    blog2_tag:'Node.js · Backend · APIs', blog2_title:'El día que construí mi primera API REST desde cero y entendí cómo funciona internet', blog2_excerpt:'Siempre usé APIs de terceros sin entender qué pasaba por adentro. El día que construí la mía — con Express, rutas, middlewares, JWT y PostgreSQL — fue como ver la matrix. Entendí qué es una request, una response, un status code, por qué 401 no es lo mismo que 403, y cómo una contraseña nunca debería guardarse en texto plano.', blog2_time:'7 min de lectura',
+    about_eyebrow:'Sobre mí', about_t1:'Hola, soy',
+    about_p1:'Soy <strong>desarrollador web autodidacta</strong> cursando Ingeniería en Sistemas en la UTN. Completé la carrera Full-Stack en Coderhouse y sigo aprendiendo todos los días construyendo proyectos reales.',
+    about_p2:'Me especializo en el stack de <strong>JavaScript moderno</strong>: React y Next.js en el frontend, Node.js y PostgreSQL en el backend. También tengo experiencia con soporte técnico y administración de sistemas.',
+    about_p3:'Antes de dedicarme al desarrollo trabajé en <strong>Mercado Libre</strong> gestionando ventas digitales. Esa experiencia me dio una visión del producto muy diferente — entiendo al usuario final.',
+    about_p4:'Estoy buscando mis primeras oportunidades reales para demostrar lo que puedo hacer. Me comprometo con cada proyecto como si fuera el mío propio.',
+    a_loc:'Palermo, Buenos Aires 🇦🇷', a_utn:'UTN — Ingeniería en Sistemas (en curso)', a_remote:'Disponible para trabajo remoto', a_lang:'Español (nativo) · Inglés (intermedio)',
+    c_eyebrow:'Contacto', c_t1:'¿Tenés un', c_t2:'proyecto', c_t3:'en mente?',
+    c_sub:'Estoy abierto a nuevas oportunidades. Contame qué necesitás y vemos cómo puedo ayudarte.',
+  },
+  en: {
+    nav_stack:'Stack', nav_exp:'Experience', nav_projects:'Projects', nav_blog:'Blog', nav_about:'About', nav_contact:'Contact',
+    badge_open:'Open to work', badge_hire:'Available for hire',
+    hero_l1:'Web development', hero_l2:'that actually', hero_l3:'works.',
+    hero_sub:"I'm Lucas Gorini, Independent Web Developer based in Buenos Aires. I build modern apps with React, Next.js and Node.js.",
+    btn_proj:'See projects', btn_contact:"Let's work together →", btn_cv:'Download CV',
+    stack_label:'Main stack', stat_utn:'Systems Eng. · UTN', stat_commit:'Commitment',
+    skills_eyebrow:'Tech stack', skills_t1:'What I', skills_t2:'build',
+    s1_name:'Frontend', s1_desc:'Modern, fast, responsive interfaces focused on great UX.',
+    s2_name:'Backend',  s2_desc:'Robust, secure and well-structured APIs built to scale.',
+    s3_name:'Deploy',   s3_desc:'Production-ready projects with CI/CD and modern cloud.',
+    s4_name:'Integrations', s4_desc:'Third-party services, payments and real-time notifications.',
+    exp_eyebrow:'Experience', exp_t1:'My', exp_t2:'journey',
+    exp1_role:'Full-Stack Developer Course', exp1_desc:'Intensive full-stack web development training. Learned HTML, CSS, JavaScript, React and Node.js by building real projects from scratch.',
+    exp2_role:'Systems Engineering Degree', exp2_desc:'Currently studying while building web projects in parallel. Solid foundation in algorithms, databases, networking and software fundamentals.',
+    exp3_role:'Digital Seller & Manager', exp3_desc:'Managed digital products, analyzed metrics and handled customer service at Mercado Libre. Developed strong analytical and communication skills.',
+    proj_eyebrow:'Selected work', proj_t1:'Recent', proj_t2:'projects',
+    p1_desc:'Online store with cart, Stripe checkout and admin panel. Next.js + PostgreSQL.',
+    p2_desc:'Real-time analytics dashboard. Data visualization and automated reports.',
+    p3_desc:'REST messaging API with JWT auth, chat rooms and real-time push notifications.',
+    blog_eyebrow:'Notes & learning', blog_t1:'What I', blog_t2:'learned',
+    blog1_tag:'React · Frontend', blog1_title:'How I went from not understanding a component to building full apps in React in 3 months', blog1_excerpt:"When I first saw React I thought it was black magic. What changed everything was stopping copying tutorials and starting to break things: delete code, see what breaks, understand why. In 3 months I went from not knowing what a component was to having a fullstack app deployed on Vercel with auth, dynamic routes and a real database.", blog1_time:'5 min read',
+    blog2_tag:'Node.js · Backend · APIs', blog2_title:'The day I built my first REST API from scratch and understood how the internet works', blog2_excerpt:"I always used third-party APIs without understanding what was happening inside. The day I built my own — with Express, routes, middlewares, JWT and PostgreSQL — was like seeing the matrix. I understood what a request, response, and status code are, why 401 isn't the same as 403, and why passwords should never be stored in plain text.", blog2_time:'7 min read',
+    about_eyebrow:'About me', about_t1:"Hi, I'm",
+    about_p1:"I'm a <strong>self-taught web developer</strong> studying Systems Engineering at UTN. I completed a Full-Stack course at Coderhouse and keep learning every day by building real projects.",
+    about_p2:"I specialize in the <strong>modern JavaScript stack</strong>: React and Next.js on the frontend, Node.js and PostgreSQL on the backend. I also have experience with technical support and system administration.",
+    about_p3:"Before focusing on development I worked at <strong>Mercado Libre</strong> managing digital sales. That experience gave me a product mindset that most developers don't have — I understand the end user.",
+    about_p4:"I'm looking for my first real opportunities to prove what I can do. I treat every project as if it were my own.",
+    a_loc:'Palermo, Buenos Aires 🇦🇷', a_utn:'UTN — Systems Engineering (ongoing)', a_remote:'Available for remote work', a_lang:'Spanish (native) · English (intermediate)',
+    c_eyebrow:'Contact', c_t1:'Got a', c_t2:'project', c_t3:'in mind?',
+    c_sub:"I'm open to new opportunities. Tell me what you need and let's figure out how I can help.",
+  }
+};
+ 
+let lang = 'es';
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if(T[l][k] !== undefined) el.innerHTML = T[l][k];
+  });
+  document.documentElement.lang = l;
+  document.getElementById('lang-flag').textContent  = l==='es' ? '🇺🇸' : '🇦🇷';
+  document.getElementById('lang-label').textContent = l==='es' ? 'EN'   : 'ES';
+  document.getElementById('btn-es').classList.toggle('active', l==='es');
+  document.getElementById('btn-en').classList.toggle('active', l==='en');
+}
+function toggleLang() { setLang(lang==='es'?'en':'es'); }
+</script>
 </body>
-
 </html>
