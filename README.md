@@ -1,9 +1,8 @@
 # 🚀 Lucas Gorini — Developer Portfolio
-
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-blue)](https://lucasgoriniportfolio.vercel.app/)
 ![Status](https://img.shields.io/badge/status-active-success)
-![Tech](https://img.shields.io/badge/stack-modern-blue)
+![Stack](https://img.shields.io/badge/stack-astro%20%7C%20tailwind-blue)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
-
 ## 🧠 About the Project
 
 This is my personal portfolio website, built to showcase my work, skills, and approach as a web developer.
