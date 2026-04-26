@@ -54,7 +54,7 @@ This portfolio represents how I think as a developer:
 
 ## 📸 Preview
 
-*(podés agregar un screenshot acá después)*
+![Portfolio Preview](./previewportfolio)
 
 ---
 
