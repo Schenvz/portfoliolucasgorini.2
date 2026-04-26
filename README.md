@@ -1,21 +1,70 @@
-🚀 Personal Portfolio — Lucas Gorini
+# 🚀 Lucas Gorini — Developer Portfolio
 
-This is my personal portfolio website where I showcase my projects, skills, and experience as a web developer.
+![Status](https://img.shields.io/badge/status-active-success)
+![Tech](https://img.shields.io/badge/stack-modern-blue)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-💻 I focus on building modern, scalable, and high-performance web applications using technologies like React, Next.js, and Node.js. My goal is simple: create digital products that actually work in real-world scenarios — not just look good.
+## 🧠 About the Project
 
-⚡ The project emphasizes:
-- Clean and maintainable code
-- Responsive and accessible design 📱
-- Fast loading times and performance optimization 🚀
-- Reusable components and scalable architecture 🧩
+This is my personal portfolio website, built to showcase my work, skills, and approach as a web developer.
 
-🛠️ Tech Stack:
-React • Next.js • TypeScript • Node.js • PostgreSQL • Tailwind CSS • Docker • Git
+I focus on creating **real, functional, and scalable web applications** — not just visually appealing ones.
 
-🎯 This portfolio is not just a presentation — it's a reflection of how I think, build, and solve problems.
+---
 
-🌐 Live Demo:
-https://lucasgoriniportfolio.vercel.app/
+## ⚡ Key Features
 
-📌 Currently open to new opportunities and collaborations.
+- Responsive and modern UI 📱  
+- High performance and optimized loading 🚀  
+- Clean and scalable architecture 🧩  
+- Reusable components  
+- Production-ready deployment  
+
+---
+
+## 🛠️ Tech Stack
+
+- ⚛️ React  
+- ▲ Next.js  
+- 🟦 TypeScript  
+- 🌐 Node.js  
+- 🐘 PostgreSQL  
+- 🎨 Tailwind CSS  
+- 🐳 Docker  
+- 🔧 Git  
+
+---
+
+## 🌐 Live Demo
+
+👉 https://lucasgoriniportfolio.vercel.app/
+
+---
+
+## 🎯 Philosophy
+
+> “Build things that actually work in real-world scenarios.”
+
+This portfolio represents how I think as a developer:
+- Focus on results
+- Optimize performance
+- Keep things simple and scalable
+
+---
+
+## 📸 Preview
+
+*(podés agregar un screenshot acá después)*
+
+---
+
+## 🤝 Let's Connect
+
+- 💼 Portfolio: https://lucasgoriniportfolio.vercel.app/
+- 🧑‍💻 GitHub: https://github.com/Schenvz
+
+---
+
+## 📌 Status
+
+🚀 Currently open to new opportunities and collaborations.
