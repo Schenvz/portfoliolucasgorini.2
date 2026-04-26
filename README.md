@@ -3,7 +3,6 @@
 ![Status](https://img.shields.io/badge/status-active-success)
 ![Tech](https://img.shields.io/badge/stack-modern-blue)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
-[![Live Site](./portfolio-preview.png)](https://lucasgoriniportfolio.vercel.app/)
 
 ## 🧠 About the Project
 
